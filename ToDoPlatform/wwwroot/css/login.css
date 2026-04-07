@@ -1,0 +1,8 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+.login-card { background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+.form-group { margin-bottom: 1rem; }
+.form-input { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; }
+.btn-login { width: 100%; padding: 0.75rem; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; cursor: pointer; }
+.error-message { color: red; font-size: 0.8rem; }
+.swal2-title { white-space: pre-wrap; }

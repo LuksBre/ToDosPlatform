@@ -1,0 +1,56 @@
+@model LoginVM
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDos Platform - Login</title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo">ToDos Platform</div>
+            <h1 class="form-title">Bem-vindo de volta!</h1>
+            <form id="loginForm" asp-action="Login">
+                <input asp-for="ReturnUrl">
+                <div class="form-group">
+                    <label class="form-label" asp-for="Email"></label>
+                    <input class="form-input" asp-for="Email">
+                    <span class="error-message" asp-validation-for="Email"></span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" asp-for="Password"></label>
+                    <input class="form-input" asp-for="Password">
+                    <span class="error-message" asp-validation-for="Password"></span>
+                </div>
+                <div class="remember-forgot">
+                    <label class="remember">
+                        <input type="checkbox" asp-for="RememberMe">
+                        <label class="form-label" asp-for="RememberMe"></label>
+                    </label>
+                    <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                </div>
+                <button type="submit" class="btn-login" disabled="@(TempData["Success"] != null)">Entrar</button>
+                <div class="register-link">
+                    Não tem uma conta? <a asp-action="Register">Cadastre-se</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_Notification" />
+    <script>
+        if ('@TempData["Success"]' != "") {
+            showMessage(null, '@TempData["Success"]', 3000, document.getElementById('ReturnUrl').value);
+        }
+        if ('@TempData["Failure"]' != "") {
+            showMessage("warning", '@TempData["Failure"]', 5000, null);
+        }
+    </script>
+</body>
+</html>

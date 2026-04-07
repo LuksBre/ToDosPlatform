@@ -1,0 +1,25 @@
+@inject ToDoPlatform.Services.IUserService userService
+@{
+    var user = await userService.GetLoggedUser();
+}
+@if (user != null)
+{
+    <div class="user-menu" id="userMenu">
+        <div class="user-info">
+            <div class="user-avatar">
+                <img src="@(user.ProfilePicture ?? Url.Content("~/img/users/default.png"))" width="100%" />
+            </div>
+            <span class="user-name">@user.Name</span>
+        </div>
+        <div class="dropdown" id="dropdown">
+            <a href="#" class="dropdown-item"><span>👤</span> Perfil</a>
+            <a href="#" class="dropdown-item"><span>⚙️</span> Configurações</a>
+            <form asp-action="Logout" asp-controller="Account" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="dropdown-item" style="width: 100%;">
+                    <span>🚪</span> Sair
+                </button>
+            </form>
+        </div>
+    </div>
+}

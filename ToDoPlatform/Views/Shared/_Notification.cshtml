@@ -1,0 +1,25 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    async function showMessage(type, text, time, url) {
+        let timerCompleted = false;
+        const result = await Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: time,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = () => Swal.stopTimer();
+                toast.onmouseleave = () => Swal.resumeTimer();
+                toast.onmouseleave = () => { timerCompleted = false; };
+            },
+            willClose: () => { timerCompleted = true; }
+        }).fire({
+            icon: type ?? "success",
+            title: text
+        });
+        if (timerCompleted && url) {
+            window.location.href = url;
+        }
+    }
+</script>

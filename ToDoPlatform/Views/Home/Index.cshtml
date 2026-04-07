@@ -1,8 +1,77 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model HomeVM
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="cards-grid">
+    <div class="card">
+        <div class="card-title">Total de Tarefas</div>
+        <div class="card-value" id="totalTarefas">@Model.TotalTasks</div>
+    </div>
+    <div class="card">
+        <div class="card-title">Em Aberto</div>
+        <div class="card-value" id="tarefasAbertas">@Model.OpenTasks</div>
+    </div>
+    <div class="card">
+        <div class="card-title">Concluídas</div>
+        <div class="card-value" id="tarefasConcluidas">@Model.EndedTasks</div>
+    </div>
 </div>
+
+<div class="tarefas-section">
+    <div class="section-header">
+        <h2 class="section-title"><span>📋</span> Tarefas em Aberto</h2>
+        <a asp-action="AddTask" class="btn-add"><span>+</span> Nova Tarefa</a>
+    </div>
+
+    @if (Model.OpenTasks > 0)
+    {
+        <div id="listaTarefas">
+            @foreach (ToDo toDo in Model.ToDos)
+            {
+                <div class="tarefa-item" data-id="@toDo.Id">
+                    <div class="tarefa-info">
+                        <h3>@toDo.Title</h3>
+                        @if (!string.IsNullOrEmpty(toDo.Description))
+                        {
+                            <p>@toDo.Description</p>
+                        }
+                        <p>Criada em: @toDo.CreatedAt</p>
+                    </div>
+                    <div class="tarefa-actions">
+                        <span class="tarefa-status">@(toDo.Done ? "Finalizada" : "Em aberto")</span>
+                        <button class="btn-finalizar" onclick="confirmarFinalizacao(@toDo.Id)">
+                            <span>✓</span> Finalizar
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state" id="emptyState">
+            <p class="empty-text">Nenhuma tarefa em aberto</p>
+            <a asp-action="AddTask" style="color: #667eea; text-decoration: none;">
+                Criar sua primeira tarefa
+            </a>
+        </div>
+    }
+</div>
+
+<!-- Modal de Confirmação -->
+<div class="modal" id="confirmModal">
+    <div class="modal-content">
+        <h3>Confirmar Finalização</h3>
+        <p>Tem certeza que deseja finalizar esta tarefa?</p>
+        <div class="modal-actions">
+            <button class="btn-confirm" id="confirmFinalizar">Sim, finalizar</button>
+            <button class="btn-cancel" id="cancelFinalizar">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_Notification" />
+    <script src="~/js/index.js"></script>
+}
